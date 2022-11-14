@@ -1,13 +1,11 @@
 @import './colors';
+@import './pages/login';
+@import './components/UI/button';
+@import './components/UI/form';
 
 * {
   padding: 0;
   margin: 0;
-  text-transform: capitalize;
   box-sizing: border-box;
   font-family: "Roboto", sans-serif;
-}
-
-.App {
-  color: $main-color;
 }

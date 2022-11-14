@@ -1,0 +1,19 @@
+.login {
+  background-color: $main-color;
+  height: 100vh;
+  .header {
+    color: $purple-color;
+  }
+  .sub_header,
+  p {
+    color: $gray-color;
+  }
+  .card {
+    background-color: $dark-blue-color;
+  }
+  span {
+    color: $purple-color;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
