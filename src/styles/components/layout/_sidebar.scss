@@ -1,0 +1,26 @@
+.sidebar {
+  height: 100%;
+  background-color: $second-blue-color;
+  border: none;
+  header {
+    height: 4rem;
+    background-color: $dark-blue-color;
+    div {
+      img {
+        height: 1.5rem;
+        width: 1.5rem;
+        border-radius: 50%;
+      }
+      .logout {
+        font-size: 8px;
+      }
+    }
+  }
+  .sidebar-menu {
+    overflow-y: auto;
+    max-height: calc(100% - 238px);
+    .form-control {
+      background-color: $second-blue-color;
+    }
+  }
+}

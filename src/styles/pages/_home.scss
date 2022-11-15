@@ -1,0 +1,12 @@
+.chat_container {
+  height: 100vh;
+  .card {
+    background-color: $blue-color;
+    color: $white-color;
+    overflow: hidden;
+    height: calc(100% - 8rem);
+    .row {
+      flex: 1;
+    }
+  }
+}

@@ -1,0 +1,17 @@
+.chat_item {
+  cursor: pointer;
+  img {
+    height: 3rem;
+    width: 3rem;
+    border-radius: 50%;
+  }
+  p {
+    font-size: 12px;
+  }
+}
+
+.selected {
+  background-color: $purple-color;
+  color: $dark-blue-color;
+  padding: 0.5rem 0;
+}

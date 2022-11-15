@@ -1,11 +1,26 @@
-@import './colors';
-@import './pages/loginRegister';
-@import './components/UI/button';
-@import './components/UI/form';
+@import "./colors";
+@import "./pages/loginRegister";
+@import "./pages/home";
+@import "./components/UI/button";
+@import "./components/UI/form";
+@import "./components/chatItem";
+@import "./components/layout/sidebar";
 
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
   font-family: "Roboto", sans-serif;
+}
+
+body {
+  background-color: $main-color;
+}
+
+li {
+  list-style: none;
+}
+
+.not_found {
+  height: 100vh;
 }

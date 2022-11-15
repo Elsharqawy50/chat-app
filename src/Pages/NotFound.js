@@ -6,7 +6,7 @@ export const Error404 = () => {
   const navigate = useNavigate();
   return (
     <>
-      <main>
+      <main className="bg-white not_found d-flex justify-content-center align-items-center">
         <div className="container">
           <div className="row">
             <div className="col-md-6 align-self-center">

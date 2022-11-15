@@ -16,6 +16,7 @@ const Login = () => {
 
   const onSubmit = (data) => {
     console.log(data);
+    navigate("/")
   };
 
   const loginValidation = Yup.object().shape({
@@ -60,7 +61,7 @@ const Login = () => {
         </Card.Body>
         <p className="text-center my-3">
           You don't have an account?{" "}
-          <span onClick={() => navigate("/register")}>Register</span>
+          <span className="link" onClick={() => navigate("/register")}>Register</span>
         </p>
       </Card>
     </div>
