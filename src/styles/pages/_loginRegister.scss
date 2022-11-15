@@ -1,4 +1,4 @@
-.login {
+.loginRegister {
   background-color: $main-color;
   height: 100vh;
   .header {
@@ -13,7 +13,18 @@
   }
   span {
     color: $purple-color;
+  }
+  .link {
     text-decoration: underline;
     cursor: pointer;
+  }
+  .upload {
+    cursor: pointer;
+    img {
+      width: 1.7rem;
+    }
+    span {
+      font-size: 12px;
+    }
   }
 }

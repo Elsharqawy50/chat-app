@@ -4,29 +4,41 @@ import Input from "components/formik/Input";
 import Card from "react-bootstrap/Card";
 import Button from "components/UI/Button";
 import { useNavigate } from "react-router-dom";
+import * as Yup from "yup";
 
 const Login = () => {
   const navigate = useNavigate();
 
-  const initialValues ={
+  const initialValues = {
     email: "",
-    password: ""
+    password: "",
   };
 
-  const onSubmit =(data)=>{
+  const onSubmit = (data) => {
     console.log(data);
-  }
+  };
+
+  const loginValidation = Yup.object().shape({
+    email: Yup.string()
+      .email("Invalid email address")
+      .required("Email is required")
+      .trim(),
+    password: Yup.string()
+      .min(6, "Password must be at least 6 characters")
+      .required("Password is required")
+      .trim(),
+  });
 
   return (
-    <div className="login d-flex justify-content-center align-items-center">
+    <div className="loginRegister d-flex justify-content-center align-items-center">
       <Card style={{ width: "25rem" }} className={"px-5"}>
         <h4 className="text-center mt-3 mb-0 header fw-bold">Memo Chat</h4>
         <h6 className="text-center mt-3 mb-0 sub_header">Login</h6>
         <Card.Body>
           <Formik
-          initialValues={initialValues}
-          // validationSchema={addEditOperateDriver}
-          onSubmit={onSubmit}
+            initialValues={initialValues}
+            validationSchema={loginValidation}
+            onSubmit={onSubmit}
           >
             {(formik) => {
               return (

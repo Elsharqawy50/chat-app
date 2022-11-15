@@ -3,4 +3,7 @@
   background-color: $purple-color;
   border: none;
   padding: 0.5rem 1rem;
+  &:hover {
+    background-color: $light-purple-color;
+  }
 }

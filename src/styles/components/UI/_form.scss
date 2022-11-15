@@ -1,13 +1,14 @@
 .form-control {
   border: none;
-  border-bottom: 1px solid $gray-color;
+  border-bottom: 1px solid $purple-color;
   border-radius: 0px;
   background-color: $dark-blue-color;
+  color: $white-color;
   &:focus {
     box-shadow: none;
     background-color: $dark-blue-color;
     color: $white-color;
-    border-bottom: 1px solid $gray-color;
+    border-bottom: 1px solid $purple-color;
   }
   &:-webkit-autofill,
   &:-webkit-autofill:hover,
@@ -15,7 +16,13 @@
   &:-webkit-autofill:active {
     -webkit-box-shadow: 0 0 0 30px $dark-blue-color inset !important;
   }
-  &:-webkit-autofill{
+  &:-webkit-autofill {
     -webkit-text-fill-color: $white-color !important;
+  }
 }
+input[type="file"] {
+  display: none;
+}
+.form-label {
+  margin-bottom: 0;
 }
