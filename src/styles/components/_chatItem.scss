@@ -1,5 +1,6 @@
 .chat_item {
   cursor: pointer;
+  padding: 0.5rem 0;
   img {
     height: 3rem;
     width: 3rem;
@@ -13,5 +14,4 @@
 .selected {
   background-color: $purple-color;
   color: $dark-blue-color;
-  padding: 0.5rem 0;
 }

@@ -1,0 +1,25 @@
+.chat_content {
+  width: calc(100% + 1px);
+  header {
+    text-transform: capitalize;
+    height: 4rem;
+    background-color: $dark-purple-color;
+    font-weight: 600;
+  }
+  main {
+    height: calc(100% - 8rem);
+  }
+  footer {
+    height: 4rem;
+    background-color: $white-color;
+    font-weight: 600;
+    color: $dark-blue-color;
+    .form-control {
+      background-color: inherit;
+      border: none;
+      resize: none;
+      padding: 0 10px;
+      color: $dark-blue-color;
+    }
+  }
+}

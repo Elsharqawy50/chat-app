@@ -1,6 +1,6 @@
 .sidebar {
   height: 100%;
-  background-color: $second-blue-color;
+  background-color: $blue-color;
   border: none;
   header {
     height: 4rem;
@@ -18,9 +18,9 @@
   }
   .sidebar-menu {
     overflow-y: auto;
-    max-height: calc(100% - 238px);
+    max-height: calc(100% - 178px);
     .form-control {
-      background-color: $second-blue-color;
+      background-color: $blue-color;
     }
   }
 }

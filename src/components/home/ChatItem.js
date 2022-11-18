@@ -4,7 +4,7 @@ const ChatItem = ({ avatar, username, lastMessage, isSelected, onClick }) => {
   return (
     <li
       onClick={onClick}
-      className={`chat_item mt-3 ps-3 ${isSelected ? "selected" : ""}`}
+      className={`chat_item mt-2 ps-3 ${isSelected ? "selected" : ""}`}
     >
       <div className="d-flex ">
         <img src={avatar} alt="avatar" />
