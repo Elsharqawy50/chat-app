@@ -7,7 +7,28 @@
     font-weight: 600;
   }
   main {
-    height: calc(100% - 8rem);
+    height: calc(788px - 8rem);
+    overflow-y: auto;
+    img {
+      height: 2rem;
+      width: 2rem;
+      border-radius: 50%;
+    }
+    .sender {
+      p {
+        background-color: $white-color;
+        color: $dark-blue-color;
+        border-radius: 0 0.5rem 0.5rem 0.5rem;
+      }
+    }
+    .receiver {
+      direction: rtl;
+      p {
+        background-color: $purple-color;
+        color: $dark-blue-color;
+        border-radius: 0.5rem 0 0.5rem 0.5rem;
+      }
+    }
   }
   footer {
     height: 4rem;
