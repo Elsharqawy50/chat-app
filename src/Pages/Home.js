@@ -24,22 +24,22 @@ const ChatsData = [
       {
         id: 1,
         message: "Lorem ipsum",
-        type: 'send',
+        type: "send",
       },
       {
         id: 2,
         message: "Lorem ipsum dolor",
-        type: 'receive',
+        type: "receive",
       },
       {
         id: 3,
         message: "Lorem ipsum dolor sit",
-        type: 'send',
+        type: "send",
       },
       {
         id: 4,
         message: "Lorem ipsum dolor sit amet",
-        type: 'receive',
+        type: "receive",
       },
     ],
   },
@@ -89,7 +89,7 @@ const Home = () => {
             <Col xs={4} className={"pe-0"}>
               <Sidebar
                 chatData={ChatsData}
-                  userData={userData}
+                userData={userData}
                 onSelectChat={chatSelectedHandler}
               />
             </Col>

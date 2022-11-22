@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Formik, Form } from "formik";
 import Input from "components/formik/Input";
 import Card from "react-bootstrap/Card";
@@ -7,12 +7,18 @@ import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import FileInput from "components/formik/FileInput";
 import UploadPhoto from "images/upload.png";
+import { toast } from "react-toastify";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth, storage, db } from "../firebase";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { doc, setDoc } from "firebase/firestore";
 
 const Register = () => {
   const [image, setImage] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
+    // handle uploaded image error
     const validImageTypes = ["image/jpeg", "image/jpg", "image/png"];
     if (image && !validImageTypes.includes(image?.type)) {
       setErrorMsg("Please upload a valid image file (jpg, jpeg, png)");
@@ -23,6 +29,7 @@ const Register = () => {
     }
   }, [image]);
 
+  // initial values for form fields
   const initialValues = {
     username: "",
     email: "",
@@ -30,13 +37,73 @@ const Register = () => {
     image: "",
   };
 
-  const onSubmit = (data) => {
+  // helper function to update user profile and add user to database and create his chat on database
+  const updateAndAddUserData = useCallback(
+    async (user, displayName, photoURL) => {
+      await updateProfile(user, {
+        displayName,
+        photoURL,
+      });
+      await setDoc(doc(db, "users", user.uid), {
+        uid: user.uid,
+        displayName,
+        email: user.email,
+        photoURL,
+      });
+      await setDoc(doc(db, "userChat", user.uid), {});
+    },
+    []
+  );
+
+  // submit form function
+  const onSubmit = async (data) => {
     if (errorMsg) {
       return;
     }
-    console.log(data);
+    try {
+      const respond = await createUserWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
+
+      // default image if user does not upload one
+      const defaultImage =
+        "https://firebasestorage.googleapis.com/v0/b/chat-app-d468d.appspot.com/o/unknown.jpg?alt=media&token=d253b1a5-7d07-4c81-8e36-2fc7944bd020";
+
+      // handle if user upload photo or not
+      if (data.image) {
+        const storageRef = ref(storage, data.email);
+        const uploadTask = uploadBytesResumable(storageRef, data.image);
+
+        uploadTask.on(
+          (error) => {
+            toast.error(error.message);
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then(
+              async (downloadURL) => {
+                await updateAndAddUserData(
+                  respond.user,
+                  data.username,
+                  downloadURL
+                );
+              }
+            );
+          }
+        );
+      } else {
+        await updateAndAddUserData(respond.user, data.username, defaultImage);
+      }
+
+      toast.success("Account created successfully");
+      navigate("/login");
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
+  // validation for form fields
   const registerValidation = Yup.object().shape({
     username: Yup.string().required("display name is required").trim(),
     email: Yup.string()
