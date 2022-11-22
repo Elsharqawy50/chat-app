@@ -3,11 +3,17 @@ import Button from "components/UI/Button";
 import Search from "components/home/Search";
 import ChatItem from "components/home/ChatItem";
 import { useNavigate } from "react-router-dom";
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { setUser } from "store/reducers/auth";
 
-const Sidebar = ({ chatData, userData,onSelectChat }) => {
+const Sidebar = ({ chatData, userData, onSelectChat }) => {
   const navigate = useNavigate();
   const [chats, setChats] = useState(chatData);
   const [search, setSearch] = useState("");
+  const dispatch = useDispatch();
 
   const selectChatHandler = (chat) => {
     const newChats = chats.map((c) =>
@@ -29,8 +35,14 @@ const Sidebar = ({ chatData, userData,onSelectChat }) => {
             <p className="m-0 mx-2">{userData.username}</p>
             <Button
               className={`logout px-1 py-1`}
-              onClick={() => {
-                navigate("/login");
+              onClick={async () => {
+                try {
+                  await signOut(auth);
+                  dispatch(setUser({}));
+                  navigate("/login");
+                } catch (error) {
+                  toast.error(error.message);
+                }
               }}
             >
               Logout

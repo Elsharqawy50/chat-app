@@ -5,6 +5,9 @@ import Card from "react-bootstrap/Card";
 import Button from "components/UI/Button";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -14,9 +17,26 @@ const Login = () => {
     password: "",
   };
 
-  const onSubmit = (data) => {
-    console.log(data);
-    navigate("/")
+  const onSubmit = async (data) => {
+    try {
+      const respond = await signInWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
+
+      toast.success(`Welcome ${respond.user.displayName}`);
+      navigate("/");
+    } catch (error) {
+      const message = error?.message;
+      toast.error(
+        message?.includes("wrong-password")
+          ? "The password you entered is incorrect"
+          : message?.includes("user-not-found")
+          ? "The email address you entered is not registered"
+          : message
+      );
+    }
   };
 
   const loginValidation = Yup.object().shape({
@@ -61,7 +81,9 @@ const Login = () => {
         </Card.Body>
         <p className="text-center my-3">
           You don't have an account?{" "}
-          <span className="link" onClick={() => navigate("/register")}>Register</span>
+          <span className="link" onClick={() => navigate("/register")}>
+            Register
+          </span>
         </p>
       </Card>
     </div>

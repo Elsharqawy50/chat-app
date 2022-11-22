@@ -99,7 +99,13 @@ const Register = () => {
       toast.success("Account created successfully");
       navigate("/login");
     } catch (error) {
-      toast.error(error.message);
+      const message = error?.message;
+      console.log(message);
+      toast.error(
+        message?.includes("email-already-in-use")
+          ? "Entered email is already in use"
+          : message
+      );
     }
   };
 
