@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Button from "components/UI/Button";
 import Search from "components/home/Search";
 import ChatItem from "components/home/ChatItem";
@@ -6,23 +6,29 @@ import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "store/reducers/auth";
+import { setChat } from "store/reducers/chat";
 
-const Sidebar = ({ chatData, userData, onSelectChat }) => {
+const Sidebar = ({ chatsData, onSelectChat }) => {
   const navigate = useNavigate();
-  const [chats, setChats] = useState(chatData);
-  const [search, setSearch] = useState("");
   const dispatch = useDispatch();
+  const currentUser = useSelector((state) => state.auth.user);
 
   const selectChatHandler = (chat) => {
-    const newChats = chats.map((c) =>
-      c.id === chat.id
+    dispatch(
+      setChat({
+        chatId: chat.chatId,
+        userInfo: chat.userInfo,
+      })
+    );
+    const newChats = chatsData.map((c) =>
+      c.chatId === chat.chatId
         ? { ...c, isSelected: true }
         : { ...c, isSelected: false }
     );
-    setChats(newChats);
-    onSelectChat(chat.id);
+    console.log(newChats);
+    onSelectChat(newChats);
   };
 
   return (
@@ -31,8 +37,12 @@ const Sidebar = ({ chatData, userData, onSelectChat }) => {
         <header className="px-3 d-flex justify-content-between align-items-center">
           <h5 className="fw-bold m-0">Memo Chat</h5>
           <div className="d-flex justify-content-center align-items-center">
-            <img src={userData.avatar} alt="avatar" />
-            <p className="m-0 mx-2">{userData.username}</p>
+            {currentUser.photoURL && (
+              <>
+                <img src={currentUser.photoURL} alt="avatar" />
+                <p className="m-0 mx-2">{currentUser.displayName}</p>
+              </>
+            )}
             <Button
               className={`logout px-1 py-1`}
               onClick={async () => {
@@ -52,12 +62,12 @@ const Sidebar = ({ chatData, userData, onSelectChat }) => {
         <div className="sidebar-menu">
           <Search placeholder={"Find a user"} />
           <ul className="p-0">
-            {chats.map((chat) => (
+            {chatsData.map((chat) => (
               <ChatItem
-                key={chat.id}
-                username={chat.username}
-                lastMessage={chat.lastMessage}
-                avatar={chat.avatar}
+                key={chat.chatId}
+                username={chat.userInfo.displayName}
+                lastMessage={chat.userInfo.lastMessage}
+                avatar={chat.userInfo.photoURL}
                 isSelected={chat.isSelected}
                 onClick={() => selectChatHandler(chat)}
               />

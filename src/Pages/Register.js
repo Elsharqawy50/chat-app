@@ -12,11 +12,15 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, storage, db } from "../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
+import { useDispatch } from "react-redux";
+import { setUser } from "store/reducers/auth";
 
 const Register = () => {
   const [image, setImage] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   useEffect(() => {
     // handle uploaded image error
     const validImageTypes = ["image/jpeg", "image/jpg", "image/png"];
@@ -51,8 +55,16 @@ const Register = () => {
         photoURL,
       });
       await setDoc(doc(db, "userChat", user.uid), {});
+      dispatch(
+        setUser({
+          uid: user.uid,
+          displayName,
+          email: user.email,
+          photoURL: photoURL,
+        })
+      );
     },
-    []
+    [dispatch]
   );
 
   // submit form function
@@ -95,12 +107,10 @@ const Register = () => {
       } else {
         await updateAndAddUserData(respond.user, data.username, defaultImage);
       }
-
       toast.success("Account created successfully");
       navigate("/login");
     } catch (error) {
       const message = error?.message;
-      console.log(message);
       toast.error(
         message?.includes("email-already-in-use")
           ? "Entered email is already in use"
@@ -158,7 +168,11 @@ const Register = () => {
                     className={"mt-3"}
                     label={
                       <div className="upload d-flex justify-content-center align-items-center pt-2">
-                        <img src={UploadPhoto} alt="upload" title="upload" />{" "}
+                        <img
+                          src={image ? URL.createObjectURL(image) : UploadPhoto}
+                          alt="upload"
+                          title="upload"
+                        />{" "}
                         <span className="ms-3">
                           {`Add an avatar ${image ? `(${image.name})` : ""}`}
                         </span>

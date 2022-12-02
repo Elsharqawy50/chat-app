@@ -9,9 +9,17 @@
   p {
     font-size: 12px;
   }
+  &:hover {
+    background-color: $purple-color;
+    color: $dark-blue-color;
+  }
 }
 
 .selected {
   background-color: $purple-color;
   color: $dark-blue-color;
+}
+
+.border_gray {
+  border-bottom: 1px solid $purple-color;
 }

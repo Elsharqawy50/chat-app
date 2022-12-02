@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Row, Col } from "react-bootstrap";
 import Sidebar from "components/layout/Sidebar";
 import ChatContent from "components/layout/ChatContent";
-import unknown from "images/unknown.jpg";
 import one from "images/1.jpg";
 import two from "images/2.png";
 import three from "images/3.jpg";
 import four from "images/4.png";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../firebase";
+import { useSelector } from "react-redux";
 
 const userData = {
   username: "John Doe",
@@ -74,11 +76,42 @@ const ChatsData = [
 ];
 
 const Home = () => {
-  const [chatData, setChatData] = useState(ChatsData[0]);
+  const [chats, setChats] = useState([]);
+  const user = useSelector((state) => state.auth.user);
 
-  const chatSelectedHandler = (id) => {
-    const chat = ChatsData.find((chat) => chat.id === id);
-    setChatData(chat);
+  //helper function to sort array depend on date
+  function compare(a, b) {
+    if (a.date > b.date) {
+      return -1;
+    }
+    if (a.date < b.date) {
+      return 1;
+    }
+    return 0;
+  }
+
+  useEffect(() => {
+    // fetch userChats realtime
+    const unsub = onSnapshot(doc(db, "userChat", user.uid), (doc) => {
+      const userChats = Object.entries(doc.data()).map((chat) => {
+        return {
+          chatId: chat[0],
+          userInfo: chat[1].userInfo,
+          date: chat[1].date,
+          isSelected: false,
+        };
+      });
+      setChats(userChats.sort(compare));
+    });
+
+    return () => {
+      unsub();
+    };
+  }, [user.uid]);
+
+  // handle selected chat
+  const chatSelectedHandler = (data) => {
+    setChats(data);
   };
 
   return (
@@ -87,14 +120,10 @@ const Home = () => {
         <Card.Body className="p-0 d-flex">
           <Row>
             <Col xs={4} className={"pe-0"}>
-              <Sidebar
-                chatData={ChatsData}
-                userData={userData}
-                onSelectChat={chatSelectedHandler}
-              />
+              <Sidebar chatsData={chats} onSelectChat={chatSelectedHandler} />
             </Col>
             <Col xs={8} className={"ps-0"}>
-              <ChatContent chatData={chatData} userData={userData} />
+              <ChatContent chatData={ChatsData[0]} userData={userData} />
             </Col>
           </Row>
         </Card.Body>
