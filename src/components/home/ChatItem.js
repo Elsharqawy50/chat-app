@@ -9,7 +9,7 @@ const ChatItem = ({ avatar, username, lastMessage, isSelected, onClick }) => {
       <div className="d-flex ">
         <img src={avatar} alt="avatar" />
         <div className="ms-3 d-flex flex-column justify-content-center">
-          <h6 className="mb-0 fw-bold">{username}</h6>
+          <h6 className="mb-0 fw-bold text-capitalize">{username}</h6>
           <p className="mb-0">{lastMessage}</p>
         </div>
       </div>

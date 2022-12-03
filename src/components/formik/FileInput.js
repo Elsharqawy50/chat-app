@@ -12,7 +12,7 @@ function FileInput({
 }) {
   return (
     <Fragment>
-      <Form.Group className={`${className}`} controlId={label}>
+      <Form.Group className={`${className} file_input`} controlId={label}>
         <Form.Label>{label}</Form.Label>
         <Form.Control
           className="border-primary"

@@ -14,7 +14,7 @@ const Sidebar = ({ chatsData, onSelectChat }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.auth.user);
-
+console.log(chatsData);
   const selectChatHandler = (chat) => {
     dispatch(
       setChat({
@@ -27,7 +27,6 @@ const Sidebar = ({ chatsData, onSelectChat }) => {
         ? { ...c, isSelected: true }
         : { ...c, isSelected: false }
     );
-    console.log(newChats);
     onSelectChat(newChats);
   };
 
@@ -40,7 +39,7 @@ const Sidebar = ({ chatsData, onSelectChat }) => {
             {currentUser.photoURL && (
               <>
                 <img src={currentUser.photoURL} alt="avatar" />
-                <p className="m-0 mx-2">{currentUser.displayName}</p>
+                <p className="m-0 mx-2 text-capitalize">{currentUser.displayName}</p>
               </>
             )}
             <Button
@@ -66,7 +65,7 @@ const Sidebar = ({ chatsData, onSelectChat }) => {
               <ChatItem
                 key={chat.chatId}
                 username={chat.userInfo.displayName}
-                lastMessage={chat.userInfo.lastMessage}
+                lastMessage={chat.lastMessage?.text}
                 avatar={chat.userInfo.photoURL}
                 isSelected={chat.isSelected}
                 onClick={() => selectChatHandler(chat)}

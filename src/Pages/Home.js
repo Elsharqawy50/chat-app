@@ -81,10 +81,10 @@ const Home = () => {
 
   //helper function to sort array depend on date
   function compare(a, b) {
-    if (a.date > b.date) {
+    if (a[1].date > b[1].date) {
       return -1;
     }
-    if (a.date < b.date) {
+    if (a[1].date < b[1].date) {
       return 1;
     }
     return 0;
@@ -93,15 +93,18 @@ const Home = () => {
   useEffect(() => {
     // fetch userChats realtime
     const unsub = onSnapshot(doc(db, "userChat", user.uid), (doc) => {
-      const userChats = Object.entries(doc.data()).map((chat) => {
-        return {
-          chatId: chat[0],
-          userInfo: chat[1].userInfo,
-          date: chat[1].date,
-          isSelected: false,
-        };
-      });
-      setChats(userChats.sort(compare));
+      const userChats = Object.entries(doc.data())
+        .sort((a, b) => b[1].date - a[1].date)
+        .map((chat, i) => {
+          return {
+            chatId: chat[0],
+            userInfo: chat[1].userInfo,
+            date: chat[1].date,
+            isSelected: i === 0 ? true : false,
+            lastMessage: chat[1].lastMessage,
+          };
+        });
+      setChats(userChats);
     });
 
     return () => {

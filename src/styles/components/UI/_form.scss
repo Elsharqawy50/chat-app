@@ -26,3 +26,8 @@ input[type="file"] {
 .form-label {
   margin-bottom: 0;
 }
+.file_input {
+  .form-label {
+    cursor: pointer;
+  }
+}
