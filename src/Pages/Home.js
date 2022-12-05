@@ -41,12 +41,12 @@ const Home = () => {
   return (
     <div className="chat_container container d-flex justify-content-center align-items-center">
       <Card className="border-0 w-100">
-        <Card.Body className="p-0 d-flex">
+        <Card.Body className="p-0">
           <Row>
-            <Col xs={4} className={"pe-0"}>
+            <Col xs={4} className={"pe-0 h-100"}>
               <Sidebar chatsData={chats} onSelectChat={chatSelectedHandler} />
             </Col>
-            <Col xs={8} className={"ps-0"}>
+            <Col xs={8} className={"ps-0 h-100"}>
               {chat.chatId ? (
                 <ChatContent />
               ) : (

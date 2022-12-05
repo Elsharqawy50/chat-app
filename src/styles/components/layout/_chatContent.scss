@@ -6,7 +6,7 @@
     font-weight: 600;
   }
   main {
-    height: calc(788px - 8rem);
+    height: calc(100% - 8rem);
     overflow-y: auto;
     .avatar {
       height: 2rem;
@@ -31,8 +31,8 @@
       }
     }
     .uploaded_image{
-      max-width: 400px;
-      max-height: 400px;
+      max-width: 250px;
+      max-height: 250px;
     }
   }
   footer {

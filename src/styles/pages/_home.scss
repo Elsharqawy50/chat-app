@@ -4,10 +4,9 @@
     background-color: $blue-white-color;
     color: $light-gray-color;
     overflow: hidden;
-    height: calc(100% - 8rem);
+    height: calc(100vh - 8rem);
     .row {
-      flex: 1;
-    }
+      height: calc(100vh - 8rem);    }
   }
   .no_choose {
     color: $main-color;

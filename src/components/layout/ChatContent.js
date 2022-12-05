@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faVideo,
@@ -14,6 +14,15 @@ import { db } from "../../firebase";
 const ChatContent = () => {
   const [messages, setMessages] = useState([]);
   const chat = useSelector((state) => state.chat);
+  const dummyDevRef = useRef();
+
+  useEffect(() => {
+    const timer = setTimeout(
+      () => dummyDevRef.current?.scrollIntoView({ behavior: "smooth" }),
+      600
+    );
+    return () => clearTimeout(timer);
+  }, [messages]);
 
   useEffect(() => {
     // fetch messages realtime
@@ -47,6 +56,7 @@ const ChatContent = () => {
             image={item.image}
           />
         ))}
+        <div style={{ float: "left", clear: "both" }} ref={dummyDevRef}></div>
       </main>
       <Footer />
     </div>

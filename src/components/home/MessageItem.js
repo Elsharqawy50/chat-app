@@ -1,18 +1,12 @@
-import React, { useEffect, useRef } from "react";
+import React  from "react";
 import { useSelector } from "react-redux";
 
-const MessageItem = ({ senderId, text, image, message }) => {
+const MessageItem = ({ senderId, text, image }) => {
   const chat = useSelector((state) => state.chat);
   const user = useSelector((state) => state.auth.user);
-  const dummyDevRef = useRef();
-
-  useEffect(() => {
-    dummyDevRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [message]);
 
   return (
     <div
-      ref={dummyDevRef}
       className={`d-flex mx-3  mb-2 ${
         senderId === chat.userInfo.uid ? "receiver" : "sender"
       }`}
