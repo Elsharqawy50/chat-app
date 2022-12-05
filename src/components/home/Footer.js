@@ -74,6 +74,7 @@ const Footer = () => {
         [chat.chatId + ".date"]: serverTimestamp(),
       });
       resetForm({ values: "" });
+      setImage('');
     } catch (error) {
       toast.error(error.message);
     }
