@@ -14,7 +14,6 @@ const Sidebar = ({ chatsData, onSelectChat }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.auth.user);
-console.log(chatsData);
   const selectChatHandler = (chat) => {
     dispatch(
       setChat({

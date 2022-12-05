@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Textarea from "components/formik/Textarea";
 import { Formik, Form } from "formik";
 import Button from "components/UI/Button";
@@ -7,7 +7,13 @@ import { faPaperclip } from "@fortawesome/free-solid-svg-icons";
 import FileInput from "components/formik/FileInput";
 import { db, storage } from "../../firebase";
 import { v4 as uuid } from "uuid";
-import { arrayUnion, doc, serverTimestamp, Timestamp, updateDoc } from "firebase/firestore";
+import {
+  arrayUnion,
+  doc,
+  serverTimestamp,
+  Timestamp,
+  updateDoc,
+} from "firebase/firestore";
 import { useSelector } from "react-redux";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { toast } from "react-toastify";
@@ -15,10 +21,12 @@ import { toast } from "react-toastify";
 const Footer = () => {
   const chat = useSelector((state) => state.chat);
   const currentUser = useSelector((state) => state.auth.user);
+  const [image, setImage] = useState("");
 
-  console.log(chat);
   const onSubmit = async (data, { resetForm }) => {
-    console.log(data);
+    if (data.message.trim() === "") {
+      return;
+    }
     try {
       if (data.image) {
         const storageRef = ref(storage, uuid());
@@ -90,9 +98,23 @@ const Footer = () => {
               />
               <FileInput
                 name="image"
-                label={<FontAwesomeIcon className="mx-2" icon={faPaperclip} />}
+                label={
+                  image ? (
+                    <img
+                      src={URL.createObjectURL(image)}
+                      alt="upload"
+                      title="upload"
+                      width={30}
+                      height={30}
+                      className={'mx-2'}
+                    />
+                  ) : (
+                    <FontAwesomeIcon className="mx-2" icon={faPaperclip} />
+                  )
+                }
                 onChange={(event) => {
                   formik.setFieldValue("image", event.currentTarget.files[0]);
+                  setImage(event.currentTarget.files[0]);
                 }}
               />
               <Button className={"px-2 py-1 h-100 me-2"} type="submit">
